@@ -1,10 +1,18 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
+const { token } = require('./config.json');
 
 const newUsers = [];
 
 client.on("ready", () => {
-  console.log("I am ready!");
+    console.log(`Ready! Logged in as ${client.user.tag}`);
+    client.user.setPresence({
+        status: "online",  // You can show online, idle... Do not disturb is dnd
+        game: {
+            name: "NEW USERS",  // The message shown
+            type: "WATCHING" // PLAYING, WATCHING, LISTENING, STREAMING,
+        }
+    });
 });
 
 client.on("message", (message) => {
@@ -30,4 +38,8 @@ client.on("guildMemberRemove", (member) => {
   if (newUsers[guild.id].has(member.id)) newUsers.delete(member.id);
 });
 
-client.login("SuperSecretBotTokenHere");
+client.login(token);
+
+// client
+//  .on("debug", console.log)
+//  .on("warn", console.log)
